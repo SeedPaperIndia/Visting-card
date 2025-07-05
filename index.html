@@ -70,10 +70,10 @@
     <img src="logo.jpg" alt="Seed Paper India Logo" class="logo">
     <h2>Visiting Card Calculator</h2>
     <form id="calcForm">
-      <label>Seed Type</label>
+      <label>Seed Type (350 GSM)</label>
       <select id="seed">
-        <option value="wildflower">Wildflower</option>
-        <option value="basil">Basil</option>
+        <option value="wildflower">350 GSM Wildflower</option>
+        <option value="basil">350 GSM Basil</option>
       </select>
 
       <label>Print Type</label>
@@ -136,8 +136,6 @@
         discountRate = 0.20;
       } else if (qty >= 200) {
         discountRate = 0.10;
-      } else if (qty >= 100) {
-        discountRate = 0.00;
       }
 
       let price = qty * basePrice;
