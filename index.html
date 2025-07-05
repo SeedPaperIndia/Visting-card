@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Visiting Card Price Calculator</title>
   <style>
     body {
@@ -46,6 +46,7 @@
     .result {
       font-weight: bold;
       margin: 15px 0;
+      white-space: pre-line;
     }
     footer {
       margin-top: 30px;
@@ -58,22 +59,16 @@
       margin: 0 8px;
       text-decoration: none;
     }
-    img.logo {
-      width: 100px;
-      display: block;
-      margin: 10px auto;
-    }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="logo.jpg" alt="Seed Paper India Logo" class="logo">
-    <h2>Visiting Card Calculator</h2>
+    <h2>Seed Paper India<br>Visiting Card Calculator</h2>
     <form id="calcForm">
       <label>Seed Type (350 GSM)</label>
       <select id="seed">
-        <option value="wildflower">350 GSM Wildflower</option>
-        <option value="basil">350 GSM Basil</option>
+        <option value="350 GSM Wildflower">350 GSM Wildflower</option>
+        <option value="350 GSM Basil">350 GSM Basil</option>
       </select>
 
       <label>Print Type</label>
@@ -82,8 +77,11 @@
         <option value="double">Double Side</option>
       </select>
 
-      <label>Quantity</label>
-      <input type="number" id="quantity" min="100" placeholder="Enter quantity (min 100)" />
+      <label>Quantity (Min 100)</label>
+      <input type="number" id="quantity" min="100" placeholder="Enter quantity" />
+
+      <label>Pincode</label>
+      <input type="text" id="pincode" placeholder="Enter your area pincode" />
 
       <label>Name</label>
       <input type="text" id="name" />
@@ -109,9 +107,7 @@
   </div>
 
   <footer>
-    <p>Contact us at <a href="mailto:seedpaperindia@gmail.com">seedpaperindia@gmail.com</a> | 
-      <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> | 
-      <a href="https://seedpaperindia.in" target="_blank">Website</a></p>
+    <p>Seed Paper India | <a href="mailto:seedpaperindia@gmail.com">Email</a> | <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> | <a href="https://seedpaperindia.in" target="_blank">Website</a></p>
     <p>WhatsApp: <a href="https://wa.me/6364699837" target="_blank">6364699837</a></p>
   </footer>
 
@@ -119,31 +115,37 @@
     function calculatePrice() {
       const printType = document.getElementById("printType").value;
       const qty = parseInt(document.getElementById("quantity").value);
-      if (qty < 100 || isNaN(qty)) {
-        alert("Minimum quantity is 100.");
+      const pincode = document.getElementById("pincode").value.trim();
+
+      if (qty < 100) {
+        alert("Minimum quantity is 100");
         return;
       }
 
       let basePrice = printType === "double" ? 12 : 10;
 
-      // Discount logic
-      let discountRate = 0;
+      // Tiered pricing
       if (qty >= 500) {
         basePrice = printType === "double" ? 9 : 8;
-      } else if (qty >= 400) {
-        discountRate = 0.30;
-      } else if (qty >= 300) {
-        discountRate = 0.20;
-      } else if (qty >= 200) {
-        discountRate = 0.10;
       }
 
       let price = qty * basePrice;
-      let discountAmt = price * discountRate;
-      let finalPrice = price - discountAmt;
+      let gst = price * 0.12;
 
-      document.getElementById("priceDisplay").innerText = 
-        `Total: ₹${finalPrice.toFixed(2)} (Discount: ₹${discountAmt.toFixed(2)})`;
+      // Delivery charge logic
+      let deliveryCharge = price >= 500 ? 0 : 79;
+
+      const total = price + gst + deliveryCharge;
+
+      let resultText = `Base Price: ₹${price.toFixed(2)}\nGST (12%): ₹${gst.toFixed(2)}`;
+      if (deliveryCharge > 0) {
+        resultText += `\nDelivery (India Post): ₹${deliveryCharge}`;
+      } else {
+        resultText += `\nDelivery: Free (via India Post)`;
+      }
+      resultText += `\nTotal Payable: ₹${total.toFixed(2)}\nDelivery time: 4–5 working days or depending on location.`;
+
+      document.getElementById("priceDisplay").innerText = resultText;
     }
 
     function sendToWhatsApp() {
@@ -155,11 +157,12 @@
       const gst = document.getElementById("gst").value;
       const printType = document.getElementById("printType").value;
       const seed = document.getElementById("seed").value;
+      const pincode = document.getElementById("pincode").value;
       const price = document.getElementById("priceDisplay").innerText;
 
       let message = `*Visiting Card Inquiry*\n\n` +
         `Name: ${name}\nPhone: ${phone}\nQty: ${qty}\nSeed: ${seed}\n` +
-        `Print: ${printType}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}` +
+        `Print: ${printType}\nPincode: ${pincode}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}` +
         `\n\nPlease reply to this message with your design file.`;
 
       const encoded = encodeURIComponent(message);
