@@ -3,102 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visiting Card Calculator | Seed Paper India</title>
+  <title>Visiting Card Price Calculator</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f1f9f4;
-      color: #2e7d32;
+      font-family: Arial, sans-serif;
+      background-color: #eef8f1;
+      color: #333;
       margin: 0;
-      padding: 0;
+      padding: 20px;
     }
-
     .container {
       max-width: 600px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-
     h2 {
       text-align: center;
-      margin-bottom: 30px;
-      color: #1b5e20;
+      color: #2e7d32;
     }
-
     label {
       display: block;
-      margin: 15px 0 5px;
-      font-weight: 600;
+      margin: 10px 0 5px;
     }
-
     select, input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #c8e6c9;
-      border-radius: 8px;
+      padding: 8px;
       margin-bottom: 15px;
-      font-size: 14px;
     }
-
-    .btn-group {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-
     button {
-      flex: 1;
-      margin: 5px;
-      padding: 12px;
-      background-color: #4caf50;
-      color: #fff;
+      padding: 10px 15px;
       border: none;
-      font-size: 15px;
-      border-radius: 8px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
-      transition: background 0.2s;
+      border-radius: 5px;
+      margin-right: 10px;
     }
-
-    button:hover {
-      background-color: #388e3c;
-    }
-
     .result {
-      background: #e8f5e9;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 15px;
-      line-height: 1.6;
+      font-weight: bold;
+      margin: 15px 0;
       white-space: pre-line;
     }
-
     footer {
-      margin-top: 40px;
+      margin-top: 30px;
       text-align: center;
-      font-size: 13px;
-      color: #555;
+      font-size: 14px;
+      color: #666;
     }
-
     footer a {
       color: #2e7d32;
+      margin: 0 8px;
       text-decoration: none;
-      margin: 0 6px;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h2>Seed Paper Visiting Card<br>Price Calculator</h2>
-
+    <h2>Seed Paper India<br>Visiting Card Calculator</h2>
     <form id="calcForm">
       <label>Seed Type (350 GSM)</label>
       <select id="seed">
@@ -113,16 +78,16 @@
       </select>
 
       <label>Quantity (Min 100)</label>
-      <input type="number" id="quantity" min="100" placeholder="Enter quantity" required />
+      <input type="number" id="quantity" min="100" placeholder="Enter quantity" />
 
-      <label>Name <span style="color: red">*</span></label>
+      <label>Name *</label>
       <input type="text" id="name" required />
 
-      <label>Phone Number <span style="color: red">*</span></label>
+      <label>Phone Number *</label>
       <input type="text" id="phone" required />
 
       <label>Billing Address</label>
-      <input type="text" id="address" required />
+      <input type="text" id="address" />
 
       <label>Email (optional)</label>
       <input type="email" id="email" />
@@ -130,10 +95,8 @@
       <label>GST Number (optional)</label>
       <input type="text" id="gst" />
 
-      <div class="btn-group">
-        <button type="button" onclick="calculatePrice()">Calculate</button>
-        <button type="reset">Reset</button>
-      </div>
+      <button type="button" onclick="calculatePrice()">Calculate</button>
+      <button type="reset">Reset</button>
     </form>
 
     <div class="result" id="priceDisplay"></div>
@@ -141,18 +104,16 @@
   </div>
 
   <footer>
-    <p>Seed Paper India |
-      <a href="mailto:seedpaperindia@gmail.com">Email</a> |
-      <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> |
-      <a href="https://seedpaperindia.in" target="_blank">Website</a> |
-      <a href="https://wa.me/6364699837" target="_blank">WhatsApp: 6364699837</a>
-    </p>
+    <p>Seed Paper India | <a href="mailto:seedpaperindia@gmail.com">Email</a> | 
+      <a href="https://instagram.com/seedpaperindia" target="_blank">Instagram</a> | 
+      <a href="https://seedpaperindia.in" target="_blank">Website</a></p>
+    <p>WhatsApp: <a href="https://wa.me/6364699837" target="_blank">6364699837</a></p>
   </footer>
 
   <script>
     function calculatePrice() {
-      const qty = parseInt(document.getElementById("quantity").value);
       const printType = document.getElementById("printType").value;
+      const qty = parseInt(document.getElementById("quantity").value);
 
       if (qty < 100) {
         alert("Minimum quantity is 100");
@@ -166,22 +127,29 @@
 
       const price = baseRate * qty;
       const gst = price * 0.12;
-      const delivery = qty >= 500 ? 0 : 79;
-      const total = price + gst + delivery;
+      const deliveryCharge = qty >= 500 ? 0 : 79;
 
-      let result = `Base Price: ₹${price.toFixed(2)}\nGST (12%): ₹${gst.toFixed(2)}`;
-      result += delivery > 0
-        ? `\nDelivery: ₹${delivery} (India Post)`
+      const total = price + gst + deliveryCharge;
+
+      let resultText = `Base Price: ₹${price.toFixed(2)}\nGST (12%): ₹${gst.toFixed(2)}`;
+      resultText += deliveryCharge > 0 
+        ? `\nDelivery: ₹${deliveryCharge} (via India Post)`
         : `\nDelivery: Free (via India Post)`;
-      result += `\nTotal Payable: ₹${total.toFixed(2)}\nDelivery Time: 4–5 working days or as per location.`;
-      result += `\n\nNote: Final price may change based on design. Personal details are kept confidential.`;
+      resultText += `\nTotal Payable: ₹${total.toFixed(2)}\nDelivery time: 4–5 working days or depending on location.`;
+      resultText += `\n\nNote: Final price may vary based on artwork and finishing. All personal details shared will be kept strictly confidential.`;
 
-      document.getElementById("priceDisplay").innerText = result;
+      document.getElementById("priceDisplay").innerText = resultText;
     }
 
     function sendToWhatsApp() {
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!name || !phone) {
+        alert("Please fill in both Name and Phone Number before proceeding.");
+        return;
+      }
+
       const qty = document.getElementById("quantity").value;
       const address = document.getElementById("address").value;
       const email = document.getElementById("email").value;
@@ -190,8 +158,13 @@
       const seed = document.getElementById("seed").value;
       const price = document.getElementById("priceDisplay").innerText;
 
-      const msg = `*Visiting Card Inquiry*\n\nName: ${name}\nPhone: ${phone}\nQty: ${qty}\nSeed: ${seed}\nPrint: ${printType}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}\n\nPlease reply with your design file.`;
-      window.open(`https://wa.me/6364699837?text=${encodeURIComponent(msg)}`);
+      const message = `*Visiting Card Inquiry*\n\n` +
+        `Name: ${name}\nPhone: ${phone}\nQty: ${qty}\nSeed: ${seed}\n` +
+        `Print: ${printType}\nAddress: ${address}\nEmail: ${email}\nGST: ${gst}\n\n${price}` +
+        `\n\nPlease reply to this message with your design file.`;
+
+      const encoded = encodeURIComponent(message);
+      window.open(`https://wa.me/6364699837?text=${encoded}`);
     }
   </script>
 </body>
