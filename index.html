@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Visiting Card Price Calculator</title>
   <style>
     body {
@@ -83,7 +83,7 @@
       </select>
 
       <label>Quantity</label>
-      <input type="number" id="quantity" min="1" placeholder="Enter quantity" />
+      <input type="number" id="quantity" min="100" placeholder="Enter quantity (min 100)" />
 
       <label>Name</label>
       <input type="text" id="name" />
@@ -119,9 +119,14 @@
     function calculatePrice() {
       const printType = document.getElementById("printType").value;
       const qty = parseInt(document.getElementById("quantity").value);
+      if (qty < 100 || isNaN(qty)) {
+        alert("Minimum quantity is 100.");
+        return;
+      }
+
       let basePrice = printType === "double" ? 12 : 10;
 
-      // Apply 10% discount for each 100 up to 500
+      // Discount logic
       let discountRate = 0;
       if (qty >= 500) {
         basePrice = printType === "double" ? 9 : 8;
